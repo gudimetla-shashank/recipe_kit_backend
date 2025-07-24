@@ -1,10 +1,7 @@
 package com.example.user_service.Controller;
 
-import com.example.recipekit.Entities.input.putinputentity;
-import com.example.recipekit.model.recipemodel;
 import com.example.user_service.adapters.requpdateadapter;
 import com.example.user_service.adapters.useradapter;
-import com.example.user_service.commonadapter.usercommonadapter;
 import com.example.user_service.entities.inputentities.inputentity;
 import com.example.user_service.entities.inputentities.reqinputentity;
 import com.example.user_service.exceptions.ResourceNotFoundException;
