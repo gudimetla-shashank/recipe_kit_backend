@@ -1,5 +1,6 @@
 package com.example.user_service.repository;
 
+//import com.example.user_service.configurations.passwordConfig;
 import com.example.user_service.entities.inputentities.reqinputentity;
 import com.example.user_service.entities.outputentities.outputentity;
 import com.example.user_service.exceptions.ResourceNotFoundException;
@@ -29,7 +30,6 @@ public class UserRepository {
         if (JPARepository.existsByEmail(Usermodel.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-
         // Check for existing phone number
         if (JPARepository.existsByPhonenumber(Usermodel.getPhoneNumber())) {
             throw new IllegalArgumentException("Phone number already exists");
@@ -95,6 +95,13 @@ public class UserRepository {
 
         return this.save(data);
     }
+
+    public Usermodel getUserbyemail(String email) {
+        outputentity outputentity = this.JPARepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found"));
+        return this.outputmapper.OEtomodel(outputentity);
+    }
+
 
 
 }

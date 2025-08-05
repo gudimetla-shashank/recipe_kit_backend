@@ -42,8 +42,5 @@ public class outputentity {
     private String phonenumber;
 
     @Column(name = "Password", nullable = false)
-    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&._-])[A-Za-z\\d@$!%*?&._-]{8,20}$",
-            message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
     private String Password;
 }

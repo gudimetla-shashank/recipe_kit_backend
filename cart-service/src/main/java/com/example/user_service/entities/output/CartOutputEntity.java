@@ -20,6 +20,7 @@ public class CartOutputEntity {
     @Column(name="ID",nullable = false)
     private Long id;
 
+
     @Column(name = "userId", nullable = false)
     private Long userid;
 
