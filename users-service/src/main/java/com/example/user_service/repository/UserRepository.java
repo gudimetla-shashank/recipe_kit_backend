@@ -10,6 +10,9 @@ import com.example.user_service.repository.JPA.JPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +29,7 @@ public class UserRepository {
         this.JPARepository=JPARepository;
     }
 
-    public Usermodel save(Usermodel Usermodel){
+    public Usermodel create(Usermodel Usermodel){
         if (JPARepository.existsByEmail(Usermodel.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
@@ -55,15 +58,17 @@ public class UserRepository {
                 .toList();
     }
 
-    public Usermodel update(Usermodel Usermodel){
-        Usermodel existingUsermodel = this.getByID(Usermodel.getID());
-        return this.save(Usermodel);
+    public Usermodel update(Usermodel usermodel){
+        Usermodel existingUsermodel = this.getByID(usermodel.getID());
+        usermodel.setUpdatedAt(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
+        usermodel.setCreatedAt(existingUsermodel.getCreatedAt());
+        return this.create(usermodel);
     }
 
     public List<Usermodel> saveall(List<Usermodel> Usermodels){
         List<Usermodel> result = new ArrayList<>();
         for(Usermodel Usermodel : Usermodels){
-            result.add(this.save(Usermodel));
+            result.add(this.create(Usermodel));
         }
         return result;
     }
@@ -76,24 +81,30 @@ public class UserRepository {
     }
 
     public Usermodel requpdate(Long Id, reqinputentity reqinputentity){
+        // Check if the user exists
+        Usermodel data = Optional.ofNullable(this.getByID(Id))
+                .orElseThrow(()->new ResourceNotFoundException("the data with id"+ Id+ "not found"));
+
         if (JPARepository.existsByEmail(reqinputentity.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-
         // Check for existing phone number
         if (JPARepository.existsByPhonenumber(reqinputentity.getPhoneNumber())) {
             throw new IllegalArgumentException("Phone number already exists");
         }
-        Usermodel data = Optional.ofNullable(this.getByID(Id))
-                .orElseThrow(()->new ResourceNotFoundException("the data with id"+ Id+ "not found"));
 
         if (reqinputentity.getFirstName() != null)  data.setFirstName(reqinputentity.getFirstName());
         if (reqinputentity.getLastName() != null)  data.setLastName(reqinputentity.getLastName());
         if (reqinputentity.getEmail() != null)  data.setEmail(reqinputentity.getEmail());
         if (reqinputentity.getPhoneNumber() != null)  data.setPhoneNumber(reqinputentity.getPhoneNumber());
-        if (reqinputentity.getPassword() != null)  data.setPassword(reqinputentity.getPassword());
+        if (reqinputentity.getPassword() != null && !reqinputentity.getPassword().isBlank()) {
+            data.setPassword(reqinputentity.getPassword()); // let service encode it later
+        }
+        data.setUpdatedAt(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")));
 
-        return this.save(data);
+        outputentity updatedOutputEntity = outputmapper.modeltoOE(data);
+        outputentity savedOutput = this.JPARepository.save(updatedOutputEntity);
+        return this.outputmapper.OEtomodel(savedOutput);
     }
 
     public Usermodel getUserbyemail(String email) {

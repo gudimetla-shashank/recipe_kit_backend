@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Each request must carry the JWT.
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/user/saveuser").permitAll()
                         .anyRequest().authenticated()
                 )
                  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

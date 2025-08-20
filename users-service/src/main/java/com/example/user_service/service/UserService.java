@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
 
     public Usermodel save(Usermodel Usermodel){
         Usermodel.setPassword(this.bCryptPasswordEncoder.encode(Usermodel.getPassword()));
-        return this.userRepository.save(Usermodel);
+        return this.userRepository.create(Usermodel);
     }
 
     public Usermodel getByID(Long Id){
@@ -38,6 +38,7 @@ public class UserService implements UserDetailsService {
     }
 
    public Usermodel update(Usermodel Usermodel){
+        Usermodel.setPassword(this.bCryptPasswordEncoder.encode(Usermodel.getPassword()));
         return this.userRepository.update(Usermodel);
    }
 
@@ -46,6 +47,14 @@ public class UserService implements UserDetailsService {
    }
 
    public Usermodel requpdate(Long Id, reqinputentity reqinputentity){
+       if (reqinputentity.getPassword() != null && !reqinputentity.getPassword().isBlank()) {
+           // Encrypt only if a new password is provided
+           reqinputentity.setPassword(this.bCryptPasswordEncoder.encode(reqinputentity.getPassword()));
+       } else {
+           // Set it to null so repo layer will keep the existing password
+           reqinputentity.setPassword(null);
+       }
+
         return this.userRepository.requpdate(Id, reqinputentity);
    }
 

@@ -1,11 +1,15 @@
 package com.example.user_service.entities.outputentities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @JsonPropertyOrder({ "id", "firstName", "lastName", "email", "phoneNumber", "password" })
 @Entity
@@ -43,4 +47,13 @@ public class outputentity {
 
     @Column(name = "Password", nullable = false)
     private String Password;
+
+    @Column(name= "created_at", nullable = true, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
+    private ZonedDateTime createdAt;
+
+    @Column(name= "updated_at", nullable = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
+    private ZonedDateTime updatedAt;
+
 }

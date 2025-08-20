@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.With;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
+
 @Data
 @Builder
 @With
@@ -14,4 +17,6 @@ public class Usermodel {
     private String Email;
     private String PhoneNumber;
     private String Password;
+    private ZonedDateTime CreatedAt;
+    private ZonedDateTime UpdatedAt;
 }

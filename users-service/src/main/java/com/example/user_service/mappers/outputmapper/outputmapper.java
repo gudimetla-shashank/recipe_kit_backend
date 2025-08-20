@@ -15,6 +15,8 @@ public class outputmapper {
                 .Email(outputentity.getEmail())
                 .PhoneNumber(outputentity.getPhonenumber())
                 .Password(outputentity.getPassword())
+                .CreatedAt(outputentity.getCreatedAt())
+                .UpdatedAt(outputentity.getUpdatedAt())
                 .build();
     }
 
@@ -26,6 +28,8 @@ public class outputmapper {
                 .email(Usermodel.getEmail())
                 .phonenumber(Usermodel.getPhoneNumber())
                 .Password(Usermodel.getPassword())
+                .createdAt(Usermodel.getCreatedAt())
+                .updatedAt(Usermodel.getUpdatedAt())
                 .build();
     }
 }

@@ -4,6 +4,10 @@ import com.example.user_service.entities.inputentities.inputentity;
 import com.example.user_service.models.Usermodel;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 @Component
 public class inputmapper {
 
@@ -15,6 +19,7 @@ public class inputmapper {
                 .Email(inputentity.getEmail())
                 .PhoneNumber(inputentity.getPhoneNumber())
                 .Password(inputentity.getPassword())
+                .CreatedAt(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")))
                 .build();
     }
 
