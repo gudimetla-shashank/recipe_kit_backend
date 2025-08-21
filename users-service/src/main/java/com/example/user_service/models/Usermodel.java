@@ -1,5 +1,6 @@
 package com.example.user_service.models;
 
+import com.example.user_service.enums.UserRole;
 import lombok.Builder;
 import lombok.Data;
 import lombok.With;
@@ -19,4 +20,5 @@ public class Usermodel {
     private String Password;
     private ZonedDateTime CreatedAt;
     private ZonedDateTime UpdatedAt;
+    private UserRole role;
 }

@@ -3,6 +3,7 @@ package com.example.user_service.repository;
 //import com.example.user_service.configurations.passwordConfig;
 import com.example.user_service.entities.inputentities.reqinputentity;
 import com.example.user_service.entities.outputentities.outputentity;
+import com.example.user_service.enums.UserRole;
 import com.example.user_service.exceptions.ResourceNotFoundException;
 import com.example.user_service.mappers.outputmapper.outputmapper;
 import com.example.user_service.models.Usermodel;
@@ -37,6 +38,14 @@ public class UserRepository {
         if (JPARepository.existsByPhonenumber(Usermodel.getPhoneNumber())) {
             throw new IllegalArgumentException("Phone number already exists");
         }
+
+        if (Usermodel.getRole() == null ) {
+            Usermodel.setRole(UserRole.USER);
+        }
+        else if (Usermodel.getRole() == UserRole.ADMIN) {
+            throw new IllegalArgumentException("Cannot directly assign ADMIN role.");
+        }
+
         //model to OE
         outputentity outputentity1 = outputmapper.modeltoOE(Usermodel);
         //OE to db

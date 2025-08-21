@@ -20,6 +20,7 @@ public class inputmapper {
                 .PhoneNumber(inputentity.getPhoneNumber())
                 .Password(inputentity.getPassword())
                 .CreatedAt(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")))
+                .role(inputentity.getRole())
                 .build();
     }
 

@@ -1,6 +1,7 @@
 package com.example.user_service.configurations;
 
 import com.example.user_service.JWT.JwtAuthFilter;
+import com.example.user_service.exceptions.CustomAccessDeniedHandler;
 import com.example.user_service.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,12 @@ public class SecurityConfig {
 
     private final UserService userService;
     private final JwtAuthFilter jwtFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    public SecurityConfig(UserService userService, JwtAuthFilter jwtFilter) {
+    public SecurityConfig(UserService userService, JwtAuthFilter jwtFilter, CustomAccessDeniedHandler customAccessDeniedHandler) {
         this.userService = userService;
         this.jwtFilter = jwtFilter;
+        this.customAccessDeniedHandler=customAccessDeniedHandler;
     }
 
 
@@ -35,9 +38,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Each request must carry the JWT.
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/saveuser").permitAll()
+                        .requestMatchers("/user/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedHandler(customAccessDeniedHandler) // Register the custom handler
                 )
                  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

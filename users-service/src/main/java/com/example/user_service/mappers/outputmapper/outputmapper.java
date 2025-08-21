@@ -17,6 +17,7 @@ public class outputmapper {
                 .Password(outputentity.getPassword())
                 .CreatedAt(outputentity.getCreatedAt())
                 .UpdatedAt(outputentity.getUpdatedAt())
+                .role(outputentity.getRole())
                 .build();
     }
 
@@ -30,6 +31,7 @@ public class outputmapper {
                 .Password(Usermodel.getPassword())
                 .createdAt(Usermodel.getCreatedAt())
                 .updatedAt(Usermodel.getUpdatedAt())
+                .role(Usermodel.getRole())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.user_service.entities.outputentities;
 
+import com.example.user_service.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
@@ -48,12 +49,15 @@ public class outputentity {
     @Column(name = "Password", nullable = false)
     private String Password;
 
-    @Column(name= "created_at", nullable = true, updatable = false)
+    @Column(name= "created_at", nullable = false, updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
     private ZonedDateTime createdAt;
 
-    @Column(name= "updated_at", nullable = true)
+    @Column(name= "updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Kolkata")
     private ZonedDateTime updatedAt;
+
+    @Column(name= "role", nullable=false)
+    private UserRole role;
 
 }

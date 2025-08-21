@@ -1,7 +1,9 @@
 package com.example.user_service.entities.inputentities;
 
+import com.example.user_service.enums.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.context.annotation.Role;
 
 @Data
 @With
@@ -26,4 +28,6 @@ public class inputentity {
 
     @NotBlank(message = "password is mandatory")
     private String Password;
+
+    private UserRole role;
 }
